@@ -17,6 +17,9 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <OptionStrict>On</OptionStrict>
     <NeutralLanguage>en</NeutralLanguage>
+    <Description>Erweiterungen für SeriLog für die einheitliche Nutzung innerhalb der brandgroup</Description>
+    <PackageProjectUrl>https://github.com/brandgroup/SerilogExtensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/brandgroup/SerilogExtensions/tree/main/SerilogExtensions</RepositoryUrl>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
