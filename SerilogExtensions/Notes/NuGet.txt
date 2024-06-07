@@ -1,0 +1,1 @@
+dotnet nuget push "SerilogExtensions\bin\Release\Brandgroup.SerilogExtensions.0.1.0.nupkg" --source "Brandgroup GitHub" --api-key=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
