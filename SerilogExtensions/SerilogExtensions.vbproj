@@ -6,16 +6,17 @@
     <AssemblyName>Brandgroup.SerilogExtensions</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Brandgroup.SerilogExtensions</Title>
-    <Version>1.0.0</Version>
+    <Version>0.1.0</Version>
     <Authors>brandgroup</Authors>
     <Company>brandgroup</Company>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Serilog;</PackageTags>
-    <AssemblyVersion>1.0.0</AssemblyVersion>
-    <FileVersion>1.0.0</FileVersion>
+    <AssemblyVersion>0.1.0</AssemblyVersion>
+    <FileVersion>0.1.0</FileVersion>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <OptionStrict>On</OptionStrict>
+    <NeutralLanguage>en</NeutralLanguage>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0|AnyCPU'">
