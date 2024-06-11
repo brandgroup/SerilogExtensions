@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <RootNamespace>Brandgroup.SerilogExtensions</RootNamespace>
-    <TargetFrameworks>net8.0;net46</TargetFrameworks>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
     <AssemblyName>Brandgroup.SerilogExtensions</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Brandgroup.SerilogExtensions</Title>
@@ -38,9 +38,12 @@
     <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
   </PropertyGroup>
 
-  <ItemGroup Condition="'$(TargetFramework)' == 'net8.0'">
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
     <PackageReference Include="Serilog">
       <Version>4.0.0</Version>
+    </PackageReference>
+	<PackageReference Include="Roslan.DotNetUtils">
+      <Version>1.5.4</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
