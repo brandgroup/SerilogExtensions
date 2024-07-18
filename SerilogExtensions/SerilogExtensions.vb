@@ -37,6 +37,54 @@
 
 
     ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Warning-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWarning(messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Warning(messageTemplate)
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Verbose-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogVerbose(messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Verbose(messageTemplate)
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Debug-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogDebug(messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Debug(messageTemplate)
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Fatal-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogFatal(messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Fatal(messageTemplate)
+    End Sub
+
+
+
+    ''' <summary>
     ''' 
     ''' </summary>
     ''' <param name="memberName"></param>
