@@ -13,6 +13,6 @@ Public Class UnitTest1
 
         BLogError("TestLog")
 
-        Dim co As new ColumnOptions()
+        
     End Sub
 End Class
