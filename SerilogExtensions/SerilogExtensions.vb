@@ -1,4 +1,7 @@
-﻿Public Module SerilogExtensions
+﻿Imports Serilog
+Imports Serilog.Configuration
+
+Public Module SerilogExtensions
 
 
 
@@ -7,7 +10,7 @@
     ''' </summary>
     ''' <returns></returns>
     Public Function GetBrandgroupTemplate() As String
-        Return "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
+        Return "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}{ThreadId}{ProcessName}"
     End Function
 
 
