@@ -13,8 +13,6 @@ Namespace Brandgroup.SerilogExtensions.Enrichers
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("Ip", GetLocalIPAddress()))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("HostName", Environment.MachineName))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("Function", GetCallingMethodName()))
-
-
         End Sub
 
         Private Function GetProgramName() As String
@@ -34,7 +32,6 @@ Namespace Brandgroup.SerilogExtensions.Enrichers
         Private Function GetCallingMethodName() As String
             Dim st = New StackTrace()
             Dim frames = st.GetFrames()
-            ' Skip the first few frames which are related to logging infrastructure
             For i As Integer = 3 To frames.Length - 1
                 Dim method = frames(i).GetMethod()
                 If method.DeclaringType.Namespace IsNot Nothing AndAlso
