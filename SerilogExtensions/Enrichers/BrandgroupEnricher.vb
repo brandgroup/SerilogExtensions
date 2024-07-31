@@ -1,8 +1,9 @@
 Imports System.Net
-Imports System.Threading
-Imports Roslan.DotNetUtils.Net
 Imports Serilog.Core
 Imports Serilog.Events
+#Disable Warning UnusedImportClause
+Imports Roslan.DotNetUtils.Net
+#Enable Warning UnusedImportClause
 
 Namespace Enrichers
 
@@ -38,8 +39,8 @@ Namespace Enrichers
 #ElseIf NETSTANDARD2_0 Then
             Dim ips As IList(Of String) = NetworkUtils.GetAllIpAddresses()
             If ips.Count > 0 Then ip = ips(0)
-            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("LocalIpv4", ip))
 #End If
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("LocalIpv4", ip))
             ' TODO Funktionsname
         End Sub
     End Class

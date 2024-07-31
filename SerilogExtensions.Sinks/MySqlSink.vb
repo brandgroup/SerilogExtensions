@@ -1,82 +1,110 @@
 ﻿Imports MySql.Data.MySqlClient
+Imports Newtonsoft.Json
 Imports Serilog
 Imports Serilog.Configuration
 Imports Serilog.Core
 Imports Serilog.Events
-Imports Newtonsoft.Json
 
-Namespace Brandgroup.SerilogExtensions.Sinks
-    Public Class MySqlSink
-        Implements ILogEventSink
 
-        ' Private Felder für Verbindungszeichenfolge und Tabellenname
-        Private ReadOnly _connectionString As String
-        Private ReadOnly _tableName As String
+Public Class MySqlSink
+    Implements ILogEventSink
 
-        ' Konstruktor: Initialisiert den Sink mit Verbindungszeichenfolge und Tabellenname
-        Public Sub New(connectionString As String, tableName As String)
-            _connectionString = connectionString
-            _tableName = tableName
-        End Sub
+    Private ReadOnly _connectionString As String
+    Private ReadOnly _tableName As String
 
-        ' Emit-Methode: Wird für jedes Log-Ereignis aufgerufen
-        Public Sub Emit(logEvent As LogEvent) Implements ILogEventSink.Emit
-            If logEvent Is Nothing Then
-                Throw New ArgumentNullException(NameOf(logEvent))
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="connectionString"></param>
+    ''' <param name="tableName"></param>
+    Public Sub New(connectionString As String, tableName As String)
+        _connectionString = connectionString
+        _tableName = tableName
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Writes a LogEvent to the MySQL Database
+    ''' </summary>
+    ''' <param name="logEvent"></param>
+    Public Sub Emit(logEvent As LogEvent) Implements ILogEventSink.Emit
+        If logEvent Is Nothing Then Throw New ArgumentNullException(NameOf(logEvent))
+
+        Using connection As New MySqlConnection(_connectionString)
+            connection.Open()
+
+            Dim command As New MySqlCommand($"INSERT INTO {_tableName} (Timestamp, Level, Message, MessageTemplate, Exception, Properties, Program, User, Ip, HostName, Function) VALUES (@Timestamp, @Level, @Message, @MessageTemplate, @Exception, @Properties, @Program, @User, @Ip, @HostName, @Function)", connection)
+            command.Parameters.AddWithValue("@Timestamp", logEvent.Timestamp)
+            command.Parameters.AddWithValue("@Level", logEvent.Level.ToString())
+            command.Parameters.AddWithValue("@Message", logEvent.RenderMessage())
+            command.Parameters.AddWithValue("@MessageTemplate", logEvent.MessageTemplate.Text)
+            If logEvent.Exception IsNot Nothing Then
+                command.Parameters.AddWithValue("@Exception", logEvent.Exception.ToString())
+            Else
+                command.Parameters.AddWithValue("@Exception", DBNull.Value)
             End If
-
-            Using connection As New MySqlConnection(_connectionString)
-                connection.Open()
-
-                Dim command As New MySqlCommand($"INSERT INTO {_tableName} (Timestamp, Level, Message, MessageTemplate, Exception, Properties, Program, User, Ip, HostName, Function) VALUES (@Timestamp, @Level, @Message, @MessageTemplate, @Exception, @Properties, @Program, @User, @Ip, @HostName, @Function)", connection)
-                command.Parameters.AddWithValue("@Timestamp", logEvent.Timestamp)
-                command.Parameters.AddWithValue("@Level", logEvent.Level.ToString())
-                command.Parameters.AddWithValue("@Message", logEvent.RenderMessage())
-                command.Parameters.AddWithValue("@MessageTemplate", logEvent.MessageTemplate.Text)
-                If logEvent.Exception IsNot Nothing Then
-                    command.Parameters.AddWithValue("@Exception", logEvent.Exception.ToString())
-                Else
-                    command.Parameters.AddWithValue("@Exception", DBNull.Value)
-                End If
-                command.Parameters.AddWithValue("@Properties", SerializeProperties(logEvent.Properties))
-                command.Parameters.AddWithValue("@Program", GetPropertyValue(logEvent, "Program"))
-                command.Parameters.AddWithValue("@User", GetPropertyValue(logEvent, "User"))
-                command.Parameters.AddWithValue("@Ip", GetPropertyValue(logEvent, "Ip"))
-                command.Parameters.AddWithValue("@HostName", GetPropertyValue(logEvent, "HostName"))
-                command.Parameters.AddWithValue("@Function", GetBrandLogger(""))
-                command.ExecuteNonQuery()
-            End Using
-        End Sub
+            command.Parameters.AddWithValue("@Properties", SerializeProperties(logEvent))
+            command.Parameters.AddWithValue("@Program", GetPropertyValue(logEvent, "ProcessName"))
+            command.Parameters.AddWithValue("@User", GetPropertyValue(logEvent, "Username"))
+            command.Parameters.AddWithValue("@Ip", GetPropertyValue(logEvent, "LocalIpv4"))
+            command.Parameters.AddWithValue("@HostName", GetPropertyValue(logEvent, "DnsHostName"))
+            command.Parameters.AddWithValue("@Function", GetPropertyValue(logevent, "MemberName"))
+            command.ExecuteNonQuery()
+        End Using
+    End Sub
 
 
-        Private Function GetBrandLogger(memberName As String) As Serilog.ILogger
-            Return Serilog.Log _
-            .ForContext("MemberName", memberName)
-        End Function
-        Private Function SerializeProperties(properties As IReadOnlyDictionary(Of String, LogEventPropertyValue)) As String
-            Dim dict As New Dictionary(Of String, Object)
-            For Each kvp In properties
-                dict.Add(kvp.Key, kvp.Value.ToString())
-            Next
-            Return JsonConvert.SerializeObject(dict)
-        End Function
 
-        Private Function GetPropertyValue(logEvent As LogEvent, propertyName As String) As String
-            If logEvent.Properties.ContainsKey(propertyName) Then
-                Return logEvent.Properties(propertyName).ToString()
-            End If
-            Return String.Empty
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="logEvent"></param>
+    ''' <returns></returns>
+    Private Function SerializeProperties(logEvent As LogEvent) As String
+        Dim dict As New Dictionary(Of String, Object)
+        For Each kvp In logEvent.Properties
+            dict.Add(kvp.Key, kvp.Value.ToString())
+        Next
 
-        End Function
-    End Class
-
-    ' Erweiterungsmodul für  Integration des benutzerdefinierten Sinks
-    Public Module MySqlSinkExtensions
-        <Runtime.CompilerServices.Extension()>
-        Public Function MySqlExtensions(loggerConfiguration As LoggerSinkConfiguration, connectionString As String, tableName As String) As LoggerConfiguration
-            Return loggerConfiguration.Sink(New MySqlSink(connectionString, tableName))
-        End Function
-    End Module
+        Return JsonConvert.SerializeObject(dict)
+    End Function
 
 
-End Namespace
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="logEvent"></param>
+    ''' <param name="propertyName"></param>
+    ''' <returns></returns>
+    Private Function GetPropertyValue(logEvent As LogEvent, propertyName As String) As String
+        If logEvent.Properties.ContainsKey(propertyName) Then Return logEvent.Properties(propertyName).ToString()
+
+        Return String.Empty
+    End Function
+End Class
+
+
+
+''' <summary>
+''' Erweiterungsmodul für  Integration des benutzerdefinierten Sinks
+''' </summary>
+Public Module MySqlSinkExtensions
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="loggerConfiguration"></param>
+    ''' <param name="connectionString"></param>
+    ''' <param name="tableName"></param>
+    ''' <returns></returns>
+    <Runtime.CompilerServices.Extension()>
+    Public Function MySql(loggerConfiguration As LoggerSinkConfiguration, connectionString As String, tableName As String) As LoggerConfiguration
+        Return loggerConfiguration.Sink(New MySqlSink(connectionString, tableName))
+    End Function
+End Module

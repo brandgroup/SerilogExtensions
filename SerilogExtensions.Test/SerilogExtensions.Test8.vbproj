@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SerilogExtensions.Sinks\SerilogExtensions.Sinks.vbproj" />
+    <ProjectReference Include="..\SerilogExtensions.Sinks\SerilogExtensions.Sinks.MySql.vbproj" />
     <ProjectReference Include="..\SerilogExtensions\SerilogExtensions.vbproj" />
   </ItemGroup>
 

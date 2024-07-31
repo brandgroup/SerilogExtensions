@@ -10,7 +10,7 @@ Public Module SerilogExtensions
     ''' </summary>
     ''' <returns></returns>
     Public Function GetBrandgroupTemplate() As String
-        Return "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}{ThreadId}{ProcessName}"
+        Return "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
     End Function
 
 
@@ -24,6 +24,20 @@ Public Module SerilogExtensions
         GetBrandLogger(memberName) _
             .Error(messageTemplate)
     End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Error-Level.
+    ''' </summary>
+    ''' <param name="exception">Die Exception, die aufgetreten ist.</param>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogError(exception As Exception, messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+        .Error(exception, messageTemplate)
+    End Sub
+
 
 
 
