@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <RootNamespace>Brandgroup.SerilogExtensions.Sinks.MySql</RootNamespace>
+    <RootNamespace>Brandgroup.SerilogExtensions2.Sinks.MySql</RootNamespace>
     <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
-    <AssemblyName>Brandgroup.SerilogExtensions.Sinks.MySql</AssemblyName>
+    <AssemblyName>Brandgroup.SerilogExtensions2.Sinks.MySql</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
@@ -16,7 +16,7 @@
     <RepositoryType>git</RepositoryType>
     <Company>brandgroup</Company>
     <Title>Brandgroup.SerilogExtensions.Sinks.MySql</Title>
-    <PackageId>Brandgroup.SerilogExtensions.Sinks.MySql</PackageId>
+    <PackageId>Brandgroup.SerilogExtensions2.Sinks.MySql</PackageId>
     <Product>Brandgroup.SerilogExtensions.Sinks.MySql</Product>
   </PropertyGroup>
 

@@ -2,7 +2,7 @@ Imports Brandgroup.SerilogExtensions.Enrichers
 Imports Serilog
 Imports Xunit
 Imports Brandgroup.SerilogExtensions.SerilogExtensions
-Imports Brandgroup.SerilogExtensions.Sinks
+Imports Brandgroup.SerilogExtensions.Sinks.MySql
 
 Public Class LoggingTest
 
@@ -12,8 +12,7 @@ Public Class LoggingTest
                 .Enrich.With(New BrandgroupEnricher()) _
                 .WriteTo.MySql("Server=srvfbmysql;Database=verwaltung;Uid=root;Pwd=rootpb292;", "LogsTest") _
                 .CreateLogger()
-        
-        
+
         BLogInformation("Hallo .NET 8")
     End Sub
 
@@ -23,6 +22,7 @@ Public Class LoggingTest
             .Enrich.With(New BrandgroupEnricher()) _
             .WriteTo.File("log.txt", rollingInterval:=RollingInterval.Day, outputTemplate:=GetBrandgroupTemplate()) _
             .CreateLogger()
+
         BLogError("Test")
     End Sub
 End Class
