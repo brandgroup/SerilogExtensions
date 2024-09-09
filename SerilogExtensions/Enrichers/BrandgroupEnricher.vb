@@ -29,6 +29,7 @@ Namespace Enrichers
         Public Sub Enrich(logEvent As LogEvent, propertyFactory As ILogEventPropertyFactory) Implements ILogEventEnricher.Enrich
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("ThreadId", Environment.CurrentManagedThreadId))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("ProcessName", Process.GetCurrentProcess().ProcessName))
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("BaseDirectory", AppContext.BaseDirectory))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("Username", Environment.UserName))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("DnsHostName", Dns.GetHostName()))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("PcName", Environment.MachineName))

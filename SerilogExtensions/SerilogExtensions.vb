@@ -20,6 +20,18 @@ Public Module SerilogExtensions
     ''' </summary>
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
+    Public Sub BLogError(Of T0, T1, T2)(messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, Optional propertyValue2 As T2 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Error(messageTemplate, propertyValue0, propertyValue1, propertyValue2)
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Error-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
     Public Sub BLogError(messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
         GetBrandLogger(memberName) _
             .Error(messageTemplate)
@@ -33,11 +45,59 @@ Public Module SerilogExtensions
     ''' <param name="exception">Die Exception, die aufgetreten ist.</param>
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
-    Public Sub BLogError(exception As Exception, messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+    Public Sub BLogError(Of T0, T1, T2)(exception As Exception, messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, Optional propertyValue2 As T2 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
         GetBrandLogger(memberName) _
-        .Error(exception, messageTemplate)
+            .Error(exception, messageTemplate, propertyValue0, propertyValue1, propertyValue2)
     End Sub
 
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Error-Level.
+    ''' </summary>
+    ''' <param name="exception">Die Exception, die aufgetreten ist.</param>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogError(exception As Exception, messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Error(exception, messageTemplate)
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Information-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogInformation(Of T0, T1, T2)(messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, Optional propertyValue2 As T2 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Information(messageTemplate, propertyValue0, propertyValue1, propertyValue2)
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Information-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogInformation(Of T0, T1)(messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Information(messageTemplate, propertyValue0, propertyValue1)
+    End Sub
+
+
+
+    ''' <summary>
+    ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Information-Level.
+    ''' </summary>
+    ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogInformation(Of T0)(messageTemplate As String, Optional propertyValue0 As T0 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        GetBrandLogger(memberName) _
+            .Information(messageTemplate, propertyValue0)
+    End Sub
 
 
 
