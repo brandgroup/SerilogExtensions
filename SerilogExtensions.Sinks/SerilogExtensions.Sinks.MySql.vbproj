@@ -9,7 +9,7 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NeutralLanguage>en</NeutralLanguage>
     <OptionStrict>On</OptionStrict>
-    <Authors>Jan-Philipp Roslan, Robert Darminow</Authors>
+    <Authors>brandgroup</Authors>
     <Version>1.0.1</Version>
     <AssemblyVersion>1.0.1</AssemblyVersion>
     <FileVersion>1.0.1</FileVersion>

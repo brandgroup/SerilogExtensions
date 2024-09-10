@@ -7,7 +7,7 @@
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Brandgroup.SerilogExtensions</Title>
     <Version>0.3.0</Version>
-    <Authors>Jan-Philipp Roslan</Authors>
+    <Authors>brandgroup</Authors>
     <Company>brandgroup</Company>
     <RepositoryType>git</RepositoryType>
     <PackageTags>Serilog;</PackageTags>
