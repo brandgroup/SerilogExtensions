@@ -47,7 +47,9 @@ Public Class MySqlSink
                 command.Parameters.AddWithValue("@Exception", DBNull.Value)
             End If
             command.Parameters.AddWithValue("@Properties", SerializeProperties(logEvent))
-            command.Parameters.AddWithValue("@Program", GetPropertyValue(logEvent, "ProcessName"))
+
+            Dim processName = GetPropertyValue(logEvent, "ProcessName")
+            command.Parameters.AddWithValue("@Program", processName)
             command.Parameters.AddWithValue("@User", GetPropertyValue(logEvent, "Username"))
             command.Parameters.AddWithValue("@Ip", GetPropertyValue(logEvent, "LocalIpv4"))
             command.Parameters.AddWithValue("@HostName", GetPropertyValue(logEvent, "DnsHostName"))
@@ -81,9 +83,16 @@ Public Class MySqlSink
     ''' <param name="propertyName"></param>
     ''' <returns></returns>
     Private Function GetPropertyValue(logEvent As LogEvent, propertyName As String) As String
-        If logEvent.Properties.ContainsKey(propertyName) Then Return logEvent.Properties(propertyName).ToString()
+        If logEvent.Properties.ContainsKey(propertyName) Then
+            Dim prop = logEvent.Properties(propertyName)
+            Dim propScalarVal = TryCast(prop, ScalarValue)
 
-        Return String.Empty
+            If propScalarVal Is Nothing Then Return Nothing
+
+            Return propScalarVal.Value.ToString()
+        End If
+
+        Return Nothing
     End Function
 End Class
 

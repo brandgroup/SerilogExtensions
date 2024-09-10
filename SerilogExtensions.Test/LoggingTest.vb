@@ -1,8 +1,8 @@
-Imports Brandgroup.SerilogExtensions.Enrichers
+Imports Brandgroup.SerilogExtensions2.Enrichers
 Imports Serilog
 Imports Xunit
-Imports Brandgroup.SerilogExtensions.SerilogExtensions
-Imports Brandgroup.SerilogExtensions.Sinks.MySql
+Imports Brandgroup.SerilogExtensions2.SerilogExtensions
+Imports Brandgroup.SerilogExtensions2.Sinks.MySql
 
 Public Class LoggingTest
 
