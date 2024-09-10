@@ -15,7 +15,7 @@
     <FileVersion>1.0.1</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>brandgroup</Company>
-    <Title>Brandgroup.SerilogExtensions.Sinks.MySql</Title>
+    <Title>Brandgroup.SerilogExtensions2.Sinks.MySql</Title>
     <PackageId>Brandgroup.SerilogExtensions2.Sinks.MySql</PackageId>
     <Product>Brandgroup.SerilogExtensions.Sinks.MySql</Product>
   </PropertyGroup>
