@@ -34,6 +34,8 @@ Namespace Enrichers
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("DnsHostName", Dns.GetHostName()))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("PcName", Environment.MachineName))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("OSVersion", Environment.OSVersion.VersionString))
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("NoMySql", False))
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("NoFile", False))
             Dim ip = "0"
 #If NET46 Then
 

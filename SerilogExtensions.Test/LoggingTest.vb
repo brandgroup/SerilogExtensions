@@ -10,10 +10,11 @@ Public Class LoggingTest
     Sub SqlTestSub()
         Log.Logger = New LoggerConfiguration() _
                 .Enrich.With(New BrandgroupEnricher()) _
-                .WriteTo.MySql("Server=srvfbmysql;Database=verwaltung;Uid=root;Pwd=rootpb292;", "LogsTest") _
+                .Enrich.FromLogContext() _
+                .WriteTo.MySql("Server=srvfbmysql;Database=verwaltung;Uid=root;Pwd=rootpb292;", "logstest") _
                 .CreateLogger()
 
-        BLogInformation("Hallo .NET 8")
+        BLogInformation("Hallo .NET 8 (Kein MySQL)")
     End Sub
 
     <Fact>

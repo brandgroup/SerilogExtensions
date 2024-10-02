@@ -4,6 +4,7 @@ Imports Serilog
 Imports Serilog.Configuration
 Imports Serilog.Core
 Imports Serilog.Events
+Imports Serilog.Filters
 
 
 Public Class MySqlSink
@@ -114,6 +115,11 @@ Public Module MySqlSinkExtensions
     ''' <returns></returns>
     <Runtime.CompilerServices.Extension()>
     Public Function MySql(loggerConfiguration As LoggerSinkConfiguration, connectionString As String, tableName As String) As LoggerConfiguration
-        Return loggerConfiguration.Sink(New MySqlSink(connectionString, tableName))
+
+        Return loggerConfiguration.Logger(Sub(lc)
+                                              'lc.Filter.ByExcluding(Matching.WithProperty("NoMySql"))
+                                              lc.WriteTo.Sink(New MySqlSink(connectionString, tableName))
+                                          End Sub)
     End Function
+
 End Module

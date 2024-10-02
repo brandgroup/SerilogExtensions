@@ -1,6 +1,5 @@
-﻿Imports Brandgroup.SerilogExtensions
-Imports Brandgroup.SerilogExtensions.Enrichers
-Imports Brandgroup.SerilogExtensions.Sinks.MySql
+﻿Imports Brandgroup.SerilogExtensions2.Enrichers
+Imports Brandgroup.SerilogExtensions2.Sinks.MySql
 
 Imports Serilog
 
