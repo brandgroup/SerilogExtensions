@@ -9,15 +9,15 @@
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <NeutralLanguage>en</NeutralLanguage>
     <OptionStrict>On</OptionStrict>
-    <Authors>brandgroup</Authors>
-    <Version>1.0.1</Version>
-    <AssemblyVersion>1.0.1</AssemblyVersion>
-    <FileVersion>1.0.1</FileVersion>
+    <Authors>Robert Darminow, Jan-Philipp Roslan</Authors>
+    <Version>1.1.0</Version>
+    <AssemblyVersion>1.1.0</AssemblyVersion>
+    <FileVersion>1.1.0</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>brandgroup</Company>
     <Title>Brandgroup.SerilogExtensions2.Sinks.MySql</Title>
     <PackageId>Brandgroup.SerilogExtensions2.Sinks.MySql</PackageId>
-    <Product>Brandgroup.SerilogExtensions.Sinks.MySql</Product>
+    <Product>Brandgroup.SerilogExtensions2.Sinks.MySql</Product>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
