@@ -54,7 +54,7 @@ Public Class MySqlSink
             command.Parameters.AddWithValue("@User", GetPropertyValue(logEvent, "Username"))
             command.Parameters.AddWithValue("@Ip", GetPropertyValue(logEvent, "LocalIpv4"))
             command.Parameters.AddWithValue("@HostName", GetPropertyValue(logEvent, "DnsHostName"))
-            command.Parameters.AddWithValue("@Function", GetPropertyValue(logevent, "MemberName"))
+            command.Parameters.AddWithValue("@Function", GetPropertyValue(logEvent, "MemberName"))
             command.ExecuteNonQuery()
         End Using
     End Sub
@@ -117,9 +117,23 @@ Public Module MySqlSinkExtensions
     Public Function MySql(loggerConfiguration As LoggerSinkConfiguration, connectionString As String, tableName As String) As LoggerConfiguration
 
         Return loggerConfiguration.Logger(Sub(lc)
-                                              'lc.Filter.ByExcluding(Matching.WithProperty("NoMySql"))
+                                              lc.Filter.ByExcluding(Matching.WithProperty("NoMySql", True))
                                               lc.WriteTo.Sink(New MySqlSink(connectionString, tableName))
                                           End Sub)
+    End Function
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="loggerConfiguration"></param>
+    ''' <param name="connectionString"></param>
+    ''' <param name="tableName"></param>
+    ''' <returns></returns>
+    <Runtime.CompilerServices.Extension()>
+    Public Function BrandMySql(loggerConfiguration As LoggerSinkConfiguration, connectionString As String, tableName As String) As LoggerConfiguration
+        Return loggerConfiguration.MySql(connectionString, tableName)
     End Function
 
 End Module

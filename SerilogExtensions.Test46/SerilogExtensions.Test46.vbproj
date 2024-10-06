@@ -123,8 +123,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\SerilogExtensions.Sinks\SerilogExtensions.Sinks.MySql.vbproj">
-      <Project>{776c896a-a3d5-40bd-8ea6-5ba7a9bb469e}</Project>
+    <ProjectReference Include="..\SerilogExtensions.Sinks.File\SerilogExtensions.Sinks.File.vbproj">
+      <Project>{41822139-f50f-44c5-8963-1799a4aae277}</Project>
+      <Name>SerilogExtensions.Sinks.File</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SerilogExtensions.Sinks.MySql\SerilogExtensions.Sinks.MySql.vbproj">
+      <Project>{bfb28f95-5887-4cd5-a654-210e81c8b855}</Project>
       <Name>SerilogExtensions.Sinks.MySql</Name>
     </ProjectReference>
     <ProjectReference Include="..\SerilogExtensions\SerilogExtensions.vbproj">

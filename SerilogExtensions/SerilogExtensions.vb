@@ -1,19 +1,11 @@
-﻿Imports Serilog
-Imports Serilog.Configuration
-Imports Serilog.Context
+﻿Imports Serilog.Context
 Imports Serilog.Events
 
 Public Module SerilogExtensions
 
 
 
-    ''' <summary>
-    ''' 
-    ''' </summary>
-    ''' <returns></returns>
-    Public Function GetBrandgroupTemplate() As String
-        Return "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}"
-    End Function
+
 
 
 #Region "Error"
@@ -23,8 +15,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogError(Of T0, T1, T2)(messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, Optional propertyValue2 As T2 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-            .Error(messageTemplate, propertyValue0, propertyValue1, propertyValue2)
+        BLogWrite(LogEventLevel.Error, messageTemplate, propertyValue0, propertyValue1, propertyValue2, memberName)
     End Sub
 
 
@@ -35,8 +26,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogError(messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-            .Error(messageTemplate)
+        BLogWrite(LogEventLevel.Error, messageTemplate, memberName)
     End Sub
 
 
@@ -48,8 +38,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogError(Of T0, T1, T2)(exception As Exception, messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, Optional propertyValue2 As T2 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-            .Error(exception, messageTemplate, propertyValue0, propertyValue1, propertyValue2)
+        BLogWrite(LogEventLevel.Error, exception, messageTemplate, propertyValue0, propertyValue1, propertyValue2, memberName)
     End Sub
 
 
@@ -61,8 +50,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogError(exception As Exception, messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-            .Error(exception, messageTemplate)
+        BLogWrite(LogEventLevel.Error, exception, messageTemplate, memberName)
     End Sub
 #End Region
 
@@ -73,8 +61,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogInformation(Of T0, T1, T2)(messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, Optional propertyValue2 As T2 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-            .Information(messageTemplate, propertyValue0, propertyValue1, propertyValue2)
+        BLogWrite(LogEventLevel.Information, messageTemplate, propertyValue0, propertyValue1, propertyValue2, memberName)
     End Sub
 
 
@@ -85,8 +72,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogInformation(Of T0, T1)(messageTemplate As String, Optional propertyValue0 As T0 = Nothing, Optional propertyValue1 As T1 = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-            .Information(messageTemplate, propertyValue0, propertyValue1)
+        BLogWrite(LogEventLevel.Information, messageTemplate, propertyValue0, propertyValue1, memberName)
     End Sub
 
 
@@ -97,8 +83,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogInformation(Of T)(messageTemplate As String, Optional propertyValue As T = Nothing, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-        .Information(messageTemplate, propertyValue)
+        BLogWrite(LogEventLevel.Information, messageTemplate, propertyValue, memberName)
     End Sub
 
 
@@ -120,7 +105,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogInformation(messageTemplate As String, propertyValues As Object(), <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        BLogWrite(LogEventLevel.Information, messageTemplate, memberName)
+        BLogWrite(LogEventLevel.Information, messageTemplate, propertyValues, memberName)
     End Sub
 #End Region
 
@@ -155,8 +140,7 @@ Public Module SerilogExtensions
     ''' <param name="messageTemplate">Die Nachricht, die geloggt werden soll.</param>
     ''' <param name="memberName"></param>
     Public Sub BLogDebug(messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
-        GetBrandLogger(memberName) _
-            .Debug(messageTemplate)
+        BLogWrite(LogEventLevel.Information, messageTemplate, memberName)
     End Sub
 #End Region
 
@@ -173,6 +157,118 @@ Public Module SerilogExtensions
 #End Region
 
 
+#Region "Write"
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(level As LogEventLevel, exception As Exception, messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, exception, messageTemplate)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(level As LogEventLevel, exception As Exception, messageTemplate As String, propertyValues As Object(), <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, exception, messageTemplate, propertyValues)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(Of T)(level As LogEventLevel, exception As Exception, messageTemplate As String, propertyValue As T, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, exception, messageTemplate, propertyValue)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(Of T0, T1)(level As LogEventLevel, exception As Exception, messageTemplate As String, propertyValue0 As T0, propertyValue1 As T1, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, exception, messageTemplate, propertyValue0, propertyValue1)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(Of T0, T1, T2)(level As LogEventLevel, exception As Exception, messageTemplate As String, propertyValue0 As T0, propertyValue1 As T1, propertyValue2 As T2, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, exception, messageTemplate, propertyValue0, propertyValue1, propertyValue2)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
 
     ''' <summary>
     ''' 
@@ -183,12 +279,122 @@ Public Module SerilogExtensions
     Public Sub BLogWrite(level As LogEventLevel, messageTemplate As String, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
         Dim logger = GetBrandLogger(memberName)
 
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
         Using LogContext.PushProperty("MemberName", memberName)
             logger.Write(level, messageTemplate)
         End Using
 
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
     End Sub
 
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(level As LogEventLevel, messageTemplate As String, propertyValues As Object(), <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, messageTemplate, propertyValues)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(Of T)(level As LogEventLevel, messageTemplate As String, propertyValue As T, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, messageTemplate, propertyValue)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(Of T0, T1)(level As LogEventLevel, messageTemplate As String, propertyValue0 As T0, propertyValue1 As T1, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, messageTemplate, propertyValue0, propertyValue1)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+
+
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="level"></param>
+    ''' <param name="messageTemplate"></param>
+    ''' <param name="memberName"></param>
+    Public Sub BLogWrite(Of T0, T1, T2)(level As LogEventLevel, messageTemplate As String, propertyValue0 As T0, propertyValue1 As T1, propertyValue2 As T2, <System.Runtime.CompilerServices.CallerMemberName> Optional memberName As String = Nothing)
+        Dim logger = GetBrandLogger(memberName)
+
+        Dim logContexts = ProcessSinkExclusions(messageTemplate)
+
+        Using LogContext.PushProperty("MemberName", memberName)
+            logger.Write(level, messageTemplate, propertyValue0, propertyValue1, propertyValue2)
+        End Using
+
+        For Each logContext In logContexts
+            logContext.Dispose()
+        Next
+    End Sub
+#End Region
+
+
+    Private Function ProcessSinkExclusions(ByRef messageTemplate As String) As List(Of IDisposable)
+        Dim result As New List(Of IDisposable)
+
+        If messageTemplate.Contains("{NoMySql}") Then
+            messageTemplate = messageTemplate.Replace("{NoMySql}", "")
+            result.Insert(0, LogContext.PushProperty("NoMySql", True))
+        End If
+
+        If messageTemplate.Contains("{NoFile}") Then
+            messageTemplate = messageTemplate.Replace("{NoFile}", "")
+            result.Insert(0, LogContext.PushProperty("NoFile", True))
+        End If
+
+        Return result
+    End Function
 
     ''' <summary>
     ''' 

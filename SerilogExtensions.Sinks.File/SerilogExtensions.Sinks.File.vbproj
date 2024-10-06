@@ -1,0 +1,50 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <RootNamespace>Brandgroup.SerilogExtensions2.Sinks.File</RootNamespace>
+    <TargetFrameworks>netstandard2.0;net46</TargetFrameworks>
+    <AssemblyName>Brandgroup.SerilogExtensions2.Sinks.File</AssemblyName>
+    <OptionStrict>On</OptionStrict>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>Brandgroup.SerilogExtensions2.Sinks.File</PackageId>
+    <Title>Brandgroup.SerilogExtensions2.Sinks.File</Title>
+    <Version>1.0.0</Version>
+    <Authors>Jan-Philipp Roslan</Authors>
+    <Company>brandgroup</Company>
+    <Product>Brandgroup.SerilogExtensions2.Sinks.File</Product>
+    <RepositoryType>git</RepositoryType>
+    <AssemblyVersion>1.0.0</AssemblyVersion>
+    <FileVersion>1.0.0</FileVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|netstandard2.0|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net46|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|netstandard2.0|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net46|AnyCPU'">
+    <GenerateSerializationAssemblies>Auto</GenerateSerializationAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <PackageReference Include="Serilog.Sinks.File">
+      <Version>6.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+    <ItemGroup Condition="'$(TargetFramework)' == 'net46'">
+    <PackageReference Include="Serilog.Sinks.File">
+      <Version>5.0.0</Version>
+    </PackageReference>
+  </ItemGroup>
+
+</Project>
