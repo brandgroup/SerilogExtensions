@@ -1,4 +1,4 @@
-﻿Imports Serilog.Context
+Imports Serilog.Context
 Imports Serilog.Events
 
 Public Module SerilogExtensions
