@@ -37,8 +37,8 @@ Public Class MySqlSink
         Using connection As New MySqlConnection(_connectionString)
             connection.Open()
 
-            Dim command As New MySqlCommand($"INSERT INTO {_tableName} (Timestamp, Level, Message, MessageTemplate, Exception, Properties, Program, User, Ip, HostName, Function) VALUES (@Timestamp, @Level, @Message, @MessageTemplate, @Exception, @Properties, @Program, @User, @Ip, @HostName, @Function)", connection)
-            command.Parameters.AddWithValue("@Timestamp", logEvent.Timestamp)
+            Dim command As New MySqlCommand($"INSERT INTO {_tableName} (Timestamp_UTC, Level, Message, MessageTemplate, Exception, Properties, Program, User, Ip, HostName, Function) VALUES (@Timestamp, @Level, @Message, @MessageTemplate, @Exception, @Properties, @Program, @User, @Ip, @HostName, @Function)", connection)
+            command.Parameters.AddWithValue("@Timestamp", logEvent.Timestamp.UtcDateTime)
             command.Parameters.AddWithValue("@Level", logEvent.Level.ToString())
             command.Parameters.AddWithValue("@Message", logEvent.RenderMessage())
             command.Parameters.AddWithValue("@MessageTemplate", logEvent.MessageTemplate.Text)
