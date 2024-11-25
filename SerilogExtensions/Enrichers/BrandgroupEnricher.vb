@@ -40,13 +40,13 @@ Namespace Enrichers
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("NoMySql", False))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("NoFile", False))
 
-            if _environment Then
+            If _environment Then
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("ThreadId", Environment.CurrentManagedThreadId))
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("Username", Environment.UserName))
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("PcName", Environment.MachineName))
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("OSVersion", Environment.OSVersion.VersionString))
             End If
-            
+
             If _process Then
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("ProcessName", Process.GetCurrentProcess().ProcessName))
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("BaseDirectory", AppContext.BaseDirectory))
@@ -59,11 +59,11 @@ Namespace Enrichers
 #If NET46 Then
 
 #ElseIf NETSTANDARD2_0 Then
-            Dim ips As IList(Of String) = NetworkUtils.GetAllIpAddresses()
-            If ips.Count > 0 Then ip = ips(0)
+                Dim ips = NetworkUtils.GetAllIpAddresses()
+                If ips.Any() Then ip = ips.First()
 #End If
-                logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("LocalIpv4", ip))
-            End If
+                    logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("LocalIpv4", ip))
+                End If
 
             ' TODO Funktionsname
         End Sub
