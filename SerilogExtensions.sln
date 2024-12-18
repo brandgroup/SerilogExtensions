@@ -13,6 +13,8 @@ Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SerilogExtensions.Sinks.Fil
 EndProject
 Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "SerilogExtensions.Sinks.MySql", "SerilogExtensions.Sinks.MySql\SerilogExtensions.Sinks.MySql.vbproj", "{BFB28F95-5887-4CD5-A654-210E81C8B855}"
 EndProject
+Project("{F184B08F-C81C-45F6-A57F-5ABD9991F28F}") = "SerilogExtensions.Sinks.MSSql", "SerilogExtensions.Sinks.MSSql\SerilogExtensions.Sinks.MSSql.vbproj", "{1CBC34A1-1C99-4234-A521-5D72CE676894}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{BFB28F95-5887-4CD5-A654-210E81C8B855}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFB28F95-5887-4CD5-A654-210E81C8B855}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFB28F95-5887-4CD5-A654-210E81C8B855}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CBC34A1-1C99-4234-A521-5D72CE676894}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CBC34A1-1C99-4234-A521-5D72CE676894}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CBC34A1-1C99-4234-A521-5D72CE676894}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CBC34A1-1C99-4234-A521-5D72CE676894}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
