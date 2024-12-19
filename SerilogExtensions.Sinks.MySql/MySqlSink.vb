@@ -1,5 +1,9 @@
 ﻿Imports MySql.Data.MySqlClient
+#If NETSTANDARD2_0_OR_GREATER Then
+Imports System.Text.Json
+#Else
 Imports Newtonsoft.Json
+#End If
 Imports Serilog
 Imports Serilog.Configuration
 Imports Serilog.Core
@@ -7,6 +11,10 @@ Imports Serilog.Events
 Imports Serilog.Filters
 
 
+
+''' <summary>
+''' Serilog Sink that writes log events to a MySQL Database
+''' </summary>
 Public Class MySqlSink
     Implements ILogEventSink
 
@@ -67,12 +75,15 @@ Public Class MySqlSink
     ''' <param name="logEvent"></param>
     ''' <returns></returns>
     Private Function SerializeProperties(logEvent As LogEvent) As String
-        Dim dict As New Dictionary(Of String, Object)
-        For Each kvp In logEvent.Properties
-            dict.Add(kvp.Key, kvp.Value.ToString())
-        Next
 
+        Dim dict As Dictionary(Of String, Object) =
+                logEvent.Properties _
+                .ToDictionary(Of String, Object)(Function(kvp) kvp.Key, Function(kvp) kvp.Value.ToString())
+#If NETSTANDARD2_0_OR_GREATER Then
+        Return JsonSerializer.Serialize(dict)
+#Else
         Return JsonConvert.SerializeObject(dict)
+#End If
     End Function
 
 
