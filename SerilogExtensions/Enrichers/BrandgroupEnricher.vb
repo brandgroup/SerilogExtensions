@@ -39,6 +39,7 @@ Namespace Enrichers
         Public Sub Enrich(logEvent As LogEvent, propertyFactory As ILogEventPropertyFactory) Implements ILogEventEnricher.Enrich
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("NoMySql", False))
             logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("NoFile", False))
+            logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("NoMSSql", False))
 
             If _environment Then
                 logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("ThreadId", Environment.CurrentManagedThreadId))

@@ -383,6 +383,11 @@ Public Module SerilogExtensions
     Private Function ProcessSinkExclusions(ByRef messageTemplate As String) As List(Of IDisposable)
         Dim result As New List(Of IDisposable)
 
+        If messageTemplate.Contains("{NoMSSql}") Then
+            messageTemplate = messageTemplate.Replace("{NoMSSql}", "")
+            result.Insert(0, LogContext.PushProperty("NoMSSql", True))
+        End If
+
         If messageTemplate.Contains("{NoMySql}") Then
             messageTemplate = messageTemplate.Replace("{NoMySql}", "")
             result.Insert(0, LogContext.PushProperty("NoMySql", True))
