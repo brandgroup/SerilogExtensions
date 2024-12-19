@@ -10,9 +10,9 @@
     <NeutralLanguage>en</NeutralLanguage>
     <OptionStrict>On</OptionStrict>
     <Authors>Robert Darminow, Jan-Philipp Roslan</Authors>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
     <AssemblyVersion>1.1.1</AssemblyVersion>
-    <FileVersion>1.1.1</FileVersion>
+    <FileVersion>1.1.2</FileVersion>
     <RepositoryType>git</RepositoryType>
     <Company>brandgroup</Company>
     <Title>Brandgroup.SerilogExtensions2.Sinks.MySql</Title>
