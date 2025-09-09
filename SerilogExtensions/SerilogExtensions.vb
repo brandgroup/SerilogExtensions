@@ -5,9 +5,6 @@ Public Module SerilogExtensions
 
 
 
-
-
-
 #Region "Error"
     ''' <summary>
     ''' Schreibt ein Serilog Logereignis in der brandgroup-Formatierung mit Error-Level.
@@ -155,7 +152,6 @@ Public Module SerilogExtensions
             .Fatal(messageTemplate)
     End Sub
 #End Region
-
 
 #Region "Write"
 
@@ -380,6 +376,12 @@ Public Module SerilogExtensions
 #End Region
 
 
+
+    ''' <summary>
+    ''' 
+    ''' </summary>
+    ''' <param name="messageTemplate"></param>
+    ''' <returns></returns>
     Private Function ProcessSinkExclusions(ByRef messageTemplate As String) As List(Of IDisposable)
         Dim result As New List(Of IDisposable)
 
@@ -400,6 +402,8 @@ Public Module SerilogExtensions
 
         Return result
     End Function
+
+
 
     ''' <summary>
     ''' 

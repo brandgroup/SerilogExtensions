@@ -1,9 +1,6 @@
 Imports System.Net
 Imports Serilog.Core
 Imports Serilog.Events
-#Disable Warning UnusedImportClause
-Imports Roslan.DotNetUtils.Net
-#Enable Warning UnusedImportClause
 
 Namespace Enrichers
 
@@ -17,8 +14,6 @@ Namespace Enrichers
         Private _process As Boolean
         Private _network As Boolean
 #End Region
-
-
 
         ''' <summary>
         ''' 
